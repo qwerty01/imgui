@@ -7899,6 +7899,10 @@ static bool ImGui::NavScoreItem(ImGuiNavMoveResult* result, ImRect cand)
     float dcy = (cand.Min.y + cand.Max.y) - (curr.Min.y + curr.Max.y);
     float dist_center = ImFabs(dcx) + ImFabs(dcy); // L1 metric (need this for our connectedness guarantee)
 
+    float ddx = cand.Min.x - curr.Min.x;
+    float ddy = cand.Min.y - curr.Min.y;
+    float dist_top = ImFabs(ddx) - ImFabs(ddy);
+
     // Determine which quadrant of 'curr' our candidate item 'cand' lies in based on distance
     ImGuiDir quadrant;
     float dax = 0.0f, day = 0.0f, dist_axial = 0.0f;
@@ -7957,14 +7961,15 @@ static bool ImGui::NavScoreItem(ImGuiNavMoveResult* result, ImRect cand)
         {
             result->DistBox = dist_box;
             result->DistCenter = dist_center;
+            result->DistTop = dist_top;
             return true;
         }
         if (dist_box == result->DistBox)
         {
             // Try using distance between center points to break ties
-            if (dist_center < result->DistCenter)
+            if (dist_center < result->DistTop)
             {
-                result->DistCenter = dist_center;
+                result->DistTop = dist_top;
                 new_best = true;
             }
         }

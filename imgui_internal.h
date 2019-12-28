@@ -880,6 +880,7 @@ struct ImGuiNavMoveResult
     ImGuiWindow*  Window;       // Best candidate window
     float         DistBox;      // Best candidate box distance to current NavId
     float         DistCenter;   // Best candidate center distance to current NavId
+    float         DistTop;      // Best candidate top distance to current NavId
     float         DistAxial;
     ImRect        RectRel;      // Best candidate bounding box in window relative space
 
